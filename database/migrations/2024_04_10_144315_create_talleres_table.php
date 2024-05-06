@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('location');
+            $table->string('location')->default('');
+            $table->integer('numEmpleados')->default(0);
             $table->boolean('suscription')->default(false);
-            $table->boolean('partner')->default(false);
             $table->timestamps();
         });
     }

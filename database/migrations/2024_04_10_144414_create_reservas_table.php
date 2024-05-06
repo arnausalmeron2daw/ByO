@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_taller');
-            $table->unsignedBigInteger('id_servicio');
             $table->date('day');
             $table->dateTime('hour');
             $table->timestamps();
             $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_taller')->references('id')->on('talleres');
-            $table->foreign('id_servicio')->references('id')->on('servicios');
         });
     }
 
