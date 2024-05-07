@@ -10,4 +10,8 @@ class TallerRegister3Controller extends Controller
     {
         return view('tallerRegister3');
     }
+
+    public function store(){
+        
+    }
 }
