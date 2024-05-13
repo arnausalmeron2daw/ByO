@@ -15,6 +15,7 @@ const calendar = document.querySelector(".calendar"),
   addEventTitle = document.querySelector(".event-name "),
   addEventFrom = document.querySelector(".event-time-from "),
   addEventTo = document.querySelector(".event-time-to "),
+  addEventDescription = document.querySelector(".event-description"),
   addEventSubmit = document.querySelector(".add-event-btn ");
 
 let today = new Date();
@@ -254,6 +255,7 @@ function updateEvents(date) {
             </div>
             <div class="event-time">
               <span class="event-time">${event.time}</span>
+              <h3 class="event-description">${event.description}</h3>
             </div>
         </div>`;
       });
@@ -283,10 +285,15 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//allow 50 chars in eventtitle
+// Permitir 60 caracteres como máximo en los campos de título y descripción del evento
 addEventTitle.addEventListener("input", (e) => {
   addEventTitle.value = addEventTitle.value.slice(0, 60);
 });
+
+addEventDescription.addEventListener("input", (e) => {
+  addEventDescription.value = addEventDescription.value.slice(0, 60);
+});
+
 
 function defineProperty() {
   var osccred = document.createElement("div");
@@ -316,6 +323,16 @@ addEventFrom.addEventListener("input", (e) => {
     addEventFrom.value = addEventFrom.value.slice(0, 5);
   }
 });
+/*
+addEventDescription.addEventListener("input", (e) => {
+  addEventDescription.value = addEventDescription.value.replace(/[^0-9:]/g, "");
+  if (addEventDescription.value.length === 2) {
+    addEventDescription.value += ":";
+  }
+  if (addEventDescription.value.length > 5) {
+    addEventDescription.value = addEventDescription.value.slice(0, 5);
+  }
+});*/
 
 addEventTo.addEventListener("input", (e) => {
   addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
@@ -332,7 +349,8 @@ addEventSubmit.addEventListener("click", () => {
   const eventTitle = addEventTitle.value;
   const eventTimeFrom = addEventFrom.value;
   const eventTimeTo = addEventTo.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
+  const eventdescription= addEventDescription.value;
+  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventdescription === "") {
     alert("Please fill all the fields");
     return;
   }
@@ -377,8 +395,12 @@ addEventSubmit.addEventListener("click", () => {
   const newEvent = {
     title: eventTitle,
     time: timeFrom + " - " + timeTo,
-  };
+    description: eventdescription, 
+};
+
   console.log(newEvent);
+
+  console.log("almenos aqui entra");
   console.log(activeDay);
   let eventAdded = false;
   if (eventsArr.length > 0) {
@@ -408,6 +430,7 @@ addEventSubmit.addEventListener("click", () => {
   addEventTitle.value = "";
   addEventFrom.value = "";
   addEventTo.value = "";
+  addEventDescription.value = "";
   updateEvents(activeDay);
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
@@ -421,6 +444,8 @@ eventsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("event")) {
     if (confirm("Are you sure you want to delete this event?")) {
       const eventTitle = e.target.children[0].children[1].innerHTML;
+      const eventDescription = e.target.children[0].children[2].innerHTML; // Aquí se agrega el eventDescription
+
       eventsArr.forEach((event) => {
         if (
           event.day === activeDay &&
@@ -447,6 +472,7 @@ eventsContainer.addEventListener("click", (e) => {
     }
   }
 });
+
 
 //function to save events in local storage
 function saveEvents() {

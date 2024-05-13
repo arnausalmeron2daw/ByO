@@ -11,7 +11,7 @@
    
     <div id="header">
       <div class="logo"><h2 class="white">LOGO</h2></div>
-      <div class="nameTaller white"><h2>Hola {{session('taller')['name']}}</h2></div>
+    
     </div>
 
     <div id="menu">
@@ -58,24 +58,40 @@
             <div class="title">Add Event</div>
             <i class="fas fa-times close"></i>
           </div>
+
           <div class="add-event-body">
             <div class="add-event-input">
-              <input type="text" placeholder="Event Name" class="event-name" />
+              <input type="text" placeholder="Nombre Reserva" class="event-name" />
             </div>
+
             <div class="add-event-input">
               <input
                 type="text"
-                placeholder="Event Time From"
+                placeholder="Desde : "
                 class="event-time-from"
               />
             </div>
+
             <div class="add-event-input">
               <input
                 type="text"
-                placeholder="Event Time To"
+                placeholder="Hasta :"
                 class="event-time-to"
               />
             </div>
+
+
+            <div class="add-event-input">
+            <input
+                type="text"
+                placeholder="Descripcion:"
+                class="event-description"
+              />
+            </div>
+
+            
+
+
           </div>
           <div class="add-event-footer">
             <button class="add-event-btn">Add Event</button>
@@ -87,6 +103,6 @@
       </button>
     </div>
 
-    <script src="{{ asset('js/taller.js') }}"></script>
+    <script src="{{ asset('/js/taller.js') }}" defer></script>
   </body>
 </html>

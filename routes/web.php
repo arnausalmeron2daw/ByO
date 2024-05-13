@@ -4,12 +4,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\TallerEditConfigController;
+use App\Http\Controllers\TallerHorariosController;
 use App\Http\Controllers\TallerSuscriptionController;
 use App\Http\Controllers\TallerMainController;
 use App\Http\Controllers\TallerConfigController;
 use App\Http\Controllers\TallerRegisterController;
-use App\Http\Controllers\TallerRegister2Controller;
-use App\Http\Controllers\TallerRegister3Controller;
+
 
 use App\Http\Controllers\TallerLoginController;
 
@@ -29,11 +29,10 @@ Route::post('/loginUser', [LoginUserController::class, 'store'])->name('loginUse
 
 Route::get('/tallerRegister', [TallerRegisterController::class, 'index'])->name('tallerRegister.index');
 Route::post('/tallerRegister', [TallerRegisterController::class, 'store'])->name('tallerRegister.store');
+Route::post('/tallerRegister/horario', [TallerRegisterController::class, 'horariosTaller'])->name('tallerRegister.horariosTaller');
 
-Route::get('/tallerRegister2', [TallerRegister2Controller::class, 'index'])->name('tallerRegister2.index');
-Route::post('/tallerRegister2', [TallerRegister2Controller::class, 'store'])->name('tallerRegister2.store');
-
-Route::get('/tallerRegister3', [TallerRegister3Controller::class, 'index'])->name('tallerRegister3.index');
+Route::get('/tallerHorarios', [TallerHorariosController::class, 'index'])->name('tallerHorarios.index');
+Route::post('/tallerHorarios', [TallerHorariosController::class, 'store'])->name('tallerHorarios.store');
 
 
 
