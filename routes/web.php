@@ -1,22 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterUserController;
-use App\Http\Controllers\LoginUserController;
-use App\Http\Controllers\TallerEditConfigController;
-use App\Http\Controllers\TallerHorariosController;
-use App\Http\Controllers\TallerSuscriptionController;
-use App\Http\Controllers\TallerMainController;
-use App\Http\Controllers\TallerConfigController;
-use App\Http\Controllers\TallerRegisterController;
-
-
-use App\Http\Controllers\TallerLoginController;
-
-
-
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LoginUserController;
+use App\Http\Controllers\ShowTallerController;
+use App\Http\Controllers\TallerMainController;
+use App\Http\Controllers\TallerLoginController;
+use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\TallerConfigController;
+use App\Http\Controllers\TallerHorariosController;
+use App\Http\Controllers\TallerRegisterController;
+use App\Http\Controllers\TallerEditConfigController;
+use App\Http\Controllers\TallerSuscriptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,14 +41,12 @@ Route::post('/tallerSuscription', [TallerSuscriptionController::class, 'store'])
 Route::get('/tallerMain', [TallerMainController::class, 'index'])->name('tallerMain.index');
 Route::get('/tallerConfig', [TallerConfigController::class, 'index'])->name('tallerConfig.index');
 
+
 Route::get('/tallerEditConfig', [TallerEditConfigController::class, 'index'])->name('tallerEditConfig.index');
+Route::get('/dashboard', [LoginUserController::class, 'showTalleres'])->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/showTaller/{id}', [ShowTallerController::class, 'show'])->name('showTaller.show');
 
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

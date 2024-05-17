@@ -44,29 +44,27 @@
             </div>
         </header>
 
+
         <main class="pt-64 pb-32">
-            <div class="flex pl-20 flex-row w-full pt-20">
-                <div class="flex text-left flex-col gap-16">
-                    <h1 class="font-bold text-2xl">Inicia tu reserva:</h1>
-                    <h1 class="text-xl">Talleres recomendados:</h1>
+            <x-slot name="title">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ $taller->name }}
+                </h2>
+            </x-slot>
+
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <h1 class="text-3xl font-bold">{{ $taller->name }}</h1>
+                        <p><strong>Ubicación:</strong> {{ $taller->location }}</p>
+                        <p><strong>Teléfono:</strong> {{ $taller->telefono }}</p>
+                        <p><strong>Email:</strong> {{ $taller->email }}</p>
+                        <!-- Agrega más detalles según sea necesario -->
+                    </div>
                 </div>
             </div>
-            <div class="flex flex-wrap justify-around mt-8 pl-20 pr-20">
-                @foreach($talleres->chunk(4) as $chunk)
-                    <div class="flex justify-around w-full mb-8">
-                        @foreach($chunk as $taller)
-                            <a href="{{ route('showTaller.show', ['id' => $taller->id]) }}"
-                                class="bg-white p-6 m-4 rounded-lg shadow-md w-60">
-                                <h2 class="font-semibold text-lg">{{ $taller->name }}</h2>
-                                <p class="font-semibold text-lg">{{ $taller->location }}</p>
-                                <p class="font-semibold text-lg">{{ $taller->telefono }}</p>
-                                <p class="font-semibold text-lg">{{ $taller->email }}</p>
-                            </a>
-                        @endforeach
-                    </div>
-                @endforeach
-            </div>
         </main>
+
 
 
 

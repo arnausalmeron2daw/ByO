@@ -10,7 +10,7 @@
     <div class="min-h-screen flex justify-center items-center">
         <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-6">Iniciar Sesión</h2>
-            <form action="{{ route('loginUser.index') }}" method="POST">
+            <form action="{{ route('loginUser.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="block text-gray-700 font-semibold mb-2">Email:</label>
