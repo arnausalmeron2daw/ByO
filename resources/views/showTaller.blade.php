@@ -9,8 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <div class="relative z-1">
-        <header>
-            <div class="top-0 left-0 w-full overflow-hidden z-0">
+    <div class="top-0 left-0 w-full overflow-hidden z-0">
                 <video autoplay muted loop class="absolute top-0 left-0 min-w-full object-cover video-background"
                     style="height:320px;">
                     <source src="{{ asset('img/video4.mp4') }}" type="video/mp4">
@@ -44,7 +43,6 @@
             </div>
         </header>
 
-
         <main class="pt-64 pb-32">
             <x-slot name="title">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -59,46 +57,22 @@
                         <p><strong>Ubicación:</strong> {{ $taller->location }}</p>
                         <p><strong>Teléfono:</strong> {{ $taller->telefono }}</p>
                         <p><strong>Email:</strong> {{ $taller->email }}</p>
-                        <!-- Agrega más detalles según sea necesario -->
+
+                        <!-- Agregar iframe de Google Maps -->
+                        <div class="mt-6">
+                            
+                            <a href="{{ $taller->location }}"><img src="{{ asset('img/ubicacionIMG.png') }}" width="600" height="450" style="border:0" loading="lazy" allowfullscreen></img></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
 
-
-
-
         <footer class="bg-black pt-10">
-            <div class="flex justify-around flex-row">
-                <ul class="font-sans text-gray-200 text-xs flex justify-around flex-row gap-10 pt-4">
-                    <li>Blog</li>
-                    <li>Quienes somos</li>
-                    <li>Preguntas frecuentes</li>
-                    <li>Política de Privacidad</li>
-                    <li>Condiciones de uso</li>
-                    <li>Empleos</li>
-                    <li>Contacto</li>
-                </ul>
-                <div class="flex justify-around gap-10 pb-10">
-                    <img src="{{ asset('img/apple.png') }}" alt="apple">
-                    <img src="{{ asset('img/google.png') }}" alt="google">
-                </div>
-            </div>
-            <hr class="mb-6 w-10/12 mx-auto border-t-1 border-white">
-            <div class="flex justify-between flex-row pb-5">
-                <div class="flex justify-around w-1/2 items-center">
-                    <img src="{{ asset('img/logo.jpg') }}" alt="logo" class=" w-40">
-                    <p class="text-gray-400 text-xs ">©2024 B&O Inc. Todos los derechos reservados</p>
-                </div>
-                <div class="flex justify-center flex-row items-center pr-16 gap-7">
-                    <a href="https://www.instagram.com/bookandoil/"><img src="{{ asset('img/insta.png') }}"
-                            alt="insta"></a>
-                    <img src="{{ asset('img/facebook.png') }}" alt="facebook">
-                    <img src="{{ asset('img/twitter.png') }}" alt="twitter">
-                </div>
-            </div>
+            <!-- ... Código del pie de página ... -->
         </footer>
     </div>
+
     <script>
         function toggleMenu() {
             var menu = document.getElementById("menu");

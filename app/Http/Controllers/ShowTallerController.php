@@ -12,4 +12,6 @@ class ShowTallerController extends Controller
         $taller = Taller::findOrFail($id); // Obtén los detalles del taller usando su ID
         return view('showTaller', compact('taller'));
     }
+
+    
 }
