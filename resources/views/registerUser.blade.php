@@ -21,7 +21,7 @@
                     <span class="block sm:inline">{{ session('error') }}</span>
                 </div>
             @endif
-            <form action="{{ route('registerUser.index') }}" method="POST">
+            <form action="{{ route('loginUser.index') }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre:</label>
