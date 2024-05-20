@@ -24,7 +24,7 @@ class RegisterUserController extends Controller
                 $user->password = bcrypt($password); // Asegúrate de encriptar la contraseña antes de guardarla
                 $user->save();
 
-                return redirect()->route('registerUser.index')->with('success', 'Usuario registrado exitosamente.');
+                return redirect()->route('loginUser.index')->with('success', 'Usuario registrado exitosamente.');
             } else {
                 return back()->with('error', 'Las contraseñas no coinciden.');
             }
