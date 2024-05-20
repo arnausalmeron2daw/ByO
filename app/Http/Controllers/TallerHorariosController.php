@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Session;
 
 class TallerHorariosController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('tallerHorarios');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $tallerId = Session::get('id');
 
         // Crear una nueva instancia de HorarioTaller
@@ -20,7 +22,7 @@ class TallerHorariosController extends Controller
 
         // Asignar el ID del taller al campo id_taller
         $horarioTaller->id_taller = $tallerId;
-        
+
         // Asignar los valores de la solicitud a los campos correspondientes del modelo HorarioTaller
         $horarioTaller->lunes_cerrado = $request->has('lunes_cerrado');
         $horarioTaller->lunes_apertura = $request->input('lunes_apertura');
@@ -46,8 +48,17 @@ class TallerHorariosController extends Controller
 
         // Guardar el modelo en la base de datos
         $horarioTaller->save();
-
-        // Redireccionar o realizar alguna acción después de guardar los datos
-        return redirect()->route('tallerSuscription.index');
+        
+        // Buscar el horario del taller en la base de datos después de guardar
+        $horarioTaller = HorarioTaller::where('id_taller', $tallerId)->first();
+       
+        // Verificar si se encontró el horario del taller
+        if ($horarioTaller) {
+            // Redireccionar o realizar alguna acción después de guardar los datos
+            return redirect()->route('tallerSuscription.index');
+        } else {
+            // Manejar el caso en el que no se encontró el horario del taller
+            return redirect()->back()->with('error', 'No se encontró el horario del taller.');
+        }
     }
 }

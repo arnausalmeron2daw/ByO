@@ -47,31 +47,43 @@
         </header>
 
         <main class="pt-64 pb-32">
-            <div class="flex pl-20 flex-row w-full pt-20">
-                <div class="flex text-left flex-col gap-16">
-                    <h1 class="font-bold text-2xl">Inicia tu reserva:</h1>
-                    <h1 class="text-xl">Talleres recomendados:</h1>
-                </div>
-            </div>
-            <div class="flex flex-wrap justify-around mt-8 pl-10 pr-10">
-                @foreach($talleres->chunk(3) as $chunk)
-                    <div class="flex justify-around w-full mb-8">
-                        @foreach($chunk as $taller)
-                            <a href="{{ route('showTaller.show', ['id' => $taller->id]) }}"
-                                class="bg-white p-6 m-4 rounded-lg shadow-md flex flex-col items-center w-96 h-96">
-                                <h2 class="font-semibold text-3xl mb-4">{{ $taller->name }}</h2>
-                                <img src="data:image/png;base64,{{ $taller->logo }}" alt="Logo del Taller"
-                                    class="w-full h-full object-contain">
-                            </a>
-                        @endforeach
+            <div class="container mx-auto">
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
                     </div>
-                @endforeach
+                @endif
+                @if($reservas->isEmpty())
+                    <p>No se encontraron reservas.</p>
+                @else
+                    @foreach ($reservas as $reserva)
+                        <div class="mb-8 p-4 bg-white rounded shadow-md">
+                            <h2 class="text-xl font-semibold mb-4">Información de la reserva:</h2>
+                            <p><strong>Nombre del taller:</strong> {{ $reserva->taller->nombre }}</p>
+                            <p><strong>Teléfono:</strong> {{ $reserva->taller->telefono }}</p>
+                            <p><strong>Email:</strong> {{ $reserva->taller->email }}</p>
+                            <p><strong>Ubicación:</strong> <a href="{{ $reserva->taller->location }}"><u>Clica aqui!</u></a> </p>
+                            <p><strong>Fecha de entrada:</strong> {{ $reserva->start_date }}</p>
+                            <p><strong>Fecha de salida:</strong> {{ $reserva->end_date }}</p>
+                            <p><strong>Descripcion:</strong> {{ $reserva->descripcion }}</p>
+                            <div class="mt-4">
+                                <form action="{{ route('reservas.destroy', $reserva->id) }}" method="POST"
+                                    onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta reserva?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Eliminar
+                                        reserva</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-
-
-
-
         </main>
+
+
+
 
 
 

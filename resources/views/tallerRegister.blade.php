@@ -23,7 +23,7 @@
         <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
             <div></div>
             <h2 class="text-2xl font-bold mb-6">Registro del Taller</h2>
-            <form class="formulario" action="{{ route('tallerRegister.store') }}" method="POST">
+            <form class="formulario" action="{{ route('tallerRegister.store') }}" method="POST" enctype="multipart/form-data">
 
                 @csrf
                 <div class="" id="form1">
@@ -92,7 +92,7 @@
 
                     <div class="mb-6">
                         <label for="logo" class="block text-gray-700 font-semibold mb-2">Logo de la empresa:</label>
-                        <input type="file" id="logo" name="logo" accept="image/*"
+                        <input type="file" name="logo"
                             class="border border-gray-300 rounded-md px-4 py-2 w-full" required>
                     </div>
 

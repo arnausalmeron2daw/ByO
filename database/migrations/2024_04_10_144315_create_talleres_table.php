@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,6 +18,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('location')->default('');
             $table->integer('numEmpleados')->default(0);
+            $table->longText('logo');
             $table->boolean('suscription')->default(false);
             $table->timestamps();
         });

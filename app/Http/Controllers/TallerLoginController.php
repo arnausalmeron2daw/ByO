@@ -49,7 +49,7 @@ class TallerLoginController extends Controller
                 
                 Session::put('Taller', $user);
                 // Pasar la información del taller a la vista
-                return redirect()->route('tallerMain.index');
+                return redirect()->route('reserva.index');
             } else {
                 // Las contraseñas no coinciden
                 return back()->with('error', 'Email o contraseña incorrectos.');

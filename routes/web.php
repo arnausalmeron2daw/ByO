@@ -7,6 +7,7 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\ShowTallerController;
 use App\Http\Controllers\TallerMainController;
+use App\Http\Controllers\MisReservasController;
 use App\Http\Controllers\TallerLoginController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\TallerConfigController;
@@ -53,6 +54,9 @@ Route::get('/dashboard', [LoginUserController::class, 'showTalleres'])->middlewa
 
 Route::get('/showTaller/{id}', [ShowTallerController::class, 'show'])->name('showTaller.show');
 Route::post('/showTallerCita', [ShowTallerController::class, 'store'])->name("reserva.cli.store");
+
+Route::get('/misReservas', [MisReservasController::class, 'index'])->name("misReservas.index");
+Route::delete('/reservas/{id}', [MisReservasController::class, 'destroy'])->name('reservas.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

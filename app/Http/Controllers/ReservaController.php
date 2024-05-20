@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
@@ -10,22 +10,23 @@ class ReservaController extends Controller
 {
 
 
-    public function index(){
+    public function index()
+    {
         $id = session('Taller')->id;
         $reservas = Reserva::where('id_taller', $id)->get();
-        
-    $eventos = [];
 
-    foreach ($reservas as $reserva){
-        $eventos[] = [
-            'title' => $reserva->descripcion,
-            'start' => $reserva->start_date,
-            'end' => $reserva->end_date,
-            'id'=> $reserva->id,
-        ];
-    }
+        $eventos = [];
 
-    return view('Taller', compact('eventos'));
+        foreach ($reservas as $reserva) {
+            $eventos[] = [
+                'title' => $reserva->descripcion,
+                'start' => $reserva->start_date,
+                'end' => $reserva->end_date,
+                'id' => $reserva->id,
+            ];
+        }
+
+        return view('Taller', compact('eventos'));
 
     }
     public function store(Request $request)
@@ -39,11 +40,11 @@ class ReservaController extends Controller
             'descripcion' => 'required|string|max:255',
             'cita' => 'required|string|max:255',
         ]);
-        
+
         $reserva = Reserva::create($validatedData);
 
         $response = response()->json($reserva, 201);
-     
+
         if ($response) {
             return redirect()->route('reserva.index')->with('success', "Reserva Creada exitosamente"); // Aquí modificamos para acceder al mensaje de éxito
         } else {
@@ -54,25 +55,25 @@ class ReservaController extends Controller
 
 
     public function destroy(Request $request)
-{
-    try {
-        $id = $request->input('delete_id');
-        $reserva = Reserva::find($id);
+    {
+        try {
+            $id = $request->input('delete_id');
+            $reserva = Reserva::find($id);
 
-        if (is_null($reserva)) {
-            return redirect()->route('reserva.index')->with('error', 'La reserva no fue encontrada');
+            if (is_null($reserva)) {
+                return redirect()->route('reserva.index')->with('error', 'La reserva no fue encontrada');
+            }
+
+            $reserva->delete();
+
+            // Actualizar los IDs si es necesario
+            Reserva::where('id', '>', $id)->update(['id' => DB::raw('id - 1')]);
+
+            return redirect()->route('reserva.index')->with('success', 'La reserva fue eliminada correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('reserva.index')->with('error', 'Error al eliminar la reserva');
         }
-
-        $reserva->delete();
-
-        // Actualizar los IDs si es necesario
-        Reserva::where('id', '>', $id)->update(['id' => DB::raw('id - 1')]);
-
-        return redirect()->route('reserva.index')->with('success', 'La reserva fue eliminada correctamente');
-    } catch (\Exception $e) {
-        return redirect()->route('reserva.index')->with('error', 'Error al eliminar la reserva');
     }
-}
 
 
 

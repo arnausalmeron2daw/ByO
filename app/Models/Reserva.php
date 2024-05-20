@@ -19,4 +19,9 @@ class Reserva extends Model
         'descripcion',
         'cita',
     ];
+
+    public function taller()
+    {
+        return $this->belongsTo(Taller::class, 'id_taller');
+    }
 }

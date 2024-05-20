@@ -16,33 +16,37 @@ class TallerRegisterController extends Controller
 
     public function store(Request $request)
     {
-        // Verificar si los campos requeridos están presentes en la solicitud
-        if ($request->has(['name', 'email', 'password', 'repeatPassword', 'telefono'])) {
+        if ($request->has(['name', 'email', 'password', 'repeatPassword', 'telefono', 'location', 'cantidad', 'logo'])) {
 
 
             $password = $request->input('password');
             $repeatPassword = $request->input('repeatPassword');
 
-            // Verificar si las contraseñas coinciden
+
+
             if ($password === $repeatPassword) {
-                // Crear una nueva instancia del modelo Taller
+               
+                //CONVERTIR LA IMG A BASE64
+                $image = $request->file('logo');
+                $imagePath = $image->getPathName();
+                $imageData = file_get_contents($imagePath);
+                $base64Image = base64_encode($imageData);
+
                 $taller = new Taller();
                 $taller->name = $request->input('name');
                 $taller->email = $request->input('email');
+                $taller->password = bcrypt($password); 
                 $taller->telefono=$request->input('telefono');
                 $taller->location=$request->input('location');
                 $taller->numEmpleados=$request->input('cantidad');
-                $taller->password = bcrypt($password); // Encriptar la contraseña antes de guardarla
-                $taller->save(); // Guardar el taller en la base de datos
+                $taller->logo = $base64Image;          
+                $taller->save(); 
 
-                $id = $taller->id; // Obtener el ID del taller guardado
+                $id = $taller->id; 
                 $name= $taller->name;
-                Session::put('id', $id); // Guardar el ID en la sesión
+                Session::put('id', $id); 
                 Session::put('name', $name);
-
                 Session::put('Taller', $taller);
-
-                
                 return redirect()->route('tallerHorarios.index');
             } else {
                 return back()->withErrors(['repeatPassword' => 'Las contraseñas no coinciden']);

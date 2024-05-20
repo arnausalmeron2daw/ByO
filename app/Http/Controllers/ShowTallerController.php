@@ -1,34 +1,35 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Taller;
 use App\Models\Reserva;
 use Illuminate\Http\Request;
+use App\Models\HorarioTaller;
+use Illuminate\Support\Facades\Session;
 
 class ShowTallerController extends Controller
 {
     public function show($id)
-{
-    $taller = Taller::findOrFail($id); // Obtén los detalles del taller usando su ID
-    
-    $reservas = Reserva::where('id_taller', $taller->id)->get(); // Busca las reservas del taller específico
-    $citasNoDisponibles  = [];
+    {
+        $taller = Taller::findOrFail($id);
+        $reservas = Reserva::where('id_taller', $taller->id)->get();
+        $citasNoDisponibles = [];
 
-    foreach ($reservas as $reserva){
-        $citasNoDisponibles [] = [
-            'title' => $reserva->descripcion,
-            'start' => $reserva->start_date,
-            'end' => $reserva->end_date,
-            'id'=> $reserva->id,
-        ];
+        foreach ($reservas as $reserva) {
+            $citasNoDisponibles[] = [
+                'title' => $reserva->descripcion,
+                'start' => $reserva->start_date,
+                'end' => $reserva->end_date,
+                'id' => $reserva->id,
+            ];
+        }
+
+        $tallerId = Session::get('id');
+        $horarioTaller = HorarioTaller::where('id_taller', $tallerId)->first();
+        return view('showTaller', compact('taller', 'citasNoDisponibles', 'horarioTaller'));
     }
-
-    
-    return view('showTaller', compact('taller','citasNoDisponibles'));
-
-}
-
 
     public function store(Request $request)
     {
@@ -41,23 +42,15 @@ class ShowTallerController extends Controller
             'descripcion' => 'required|string|max:255',
             'cita' => 'required|string|max:255',
         ]);
-        
+
         $reserva = Reserva::create($validatedData);
 
-        $response = response()->json($reserva, 201);
-     
-        if ($response) {
-            return redirect()->route('showTaller.show')->with('success', "Reserva Creada exitosamente"); // Aquí modificamos para acceder al mensaje de éxito
+        Session::put('id_reserva',$reserva->id_taller);
+
+        if ($reserva) {
+            return redirect()->route('dashboard')->with('success', "Reserva creada exitosamente");
         } else {
-            return redirect()->route('showTaller.show')->with('error', "Error al crear la Reserva fijate bien en los campos"); // Aquí modificamos para acceder al mensaje de error
+            return redirect()->back()->with('error', "Error al crear la reserva. Verifica los campos e intenta de nuevo.");
         }
-
     }
-
-
-
-
-
-
-    
 }
