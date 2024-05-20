@@ -45,6 +45,9 @@ class TallerLoginController extends Controller
                     'telefono'=>$user->telefono,
                     'location'=>$user->location,
                 ]]);
+
+                
+                Session::put('Taller', $user);
                 // Pasar la información del taller a la vista
                 return redirect()->route('tallerMain.index');
             } else {

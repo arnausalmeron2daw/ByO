@@ -9,7 +9,7 @@ class Reservas extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+   protected $fillable = [
         'lunes_cerrado',
         'lunes_apertura',
         'lunes_cierre',

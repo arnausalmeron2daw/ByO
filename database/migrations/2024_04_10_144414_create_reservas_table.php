@@ -15,7 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_taller');
             $table->date('day');
-            $table->dateTime('hour');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->string('descripcion')->nullable(); // Nuevo campo "descripcion"
             $table->string('cita')->nullable(); // Nuevo campo "cita"
             $table->timestamps();

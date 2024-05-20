@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Taller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\User; // Asegúrate de importar el modelo User correctamente
 
 class LoginUserController extends Controller
@@ -29,6 +30,7 @@ class LoginUserController extends Controller
                 'email' => $user->email
             ]);
 
+            Session::put('id_user', $user->id); 
             return redirect()->route('dashboard');
         } else {
             return back()->with('error', 'Email o contraseña incorrectos.');

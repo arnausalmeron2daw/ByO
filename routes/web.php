@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\ShowTallerController;
 use App\Http\Controllers\TallerMainController;
@@ -16,6 +18,10 @@ use App\Http\Controllers\TallerSuscriptionController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.log');
+
 
 Route::get('/registerUser', [RegisterUserController::class, 'index'])->name('registerUser.index');
 Route::post('/registerUser', [RegisterUserController::class, 'store'])->name('registerUser.store');
@@ -46,12 +52,18 @@ Route::get('/tallerEditConfig', [TallerEditConfigController::class, 'index'])->n
 Route::get('/dashboard', [LoginUserController::class, 'showTalleres'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/showTaller/{id}', [ShowTallerController::class, 'show'])->name('showTaller.show');
-
+Route::post('/showTallerCita', [ShowTallerController::class, 'store'])->name("reserva.cli.store");
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::post('/reservas', [ReservaController::class, 'store'])->name("reserva.store");
+Route::get('/reservas', [ReservaController::class, 'index'])->name("reserva.index");
+Route::delete('/reservas', [ReservaController::class, 'destroy'])->name("reserva.delete");
+
+
+
 
 require __DIR__.'/auth.php';

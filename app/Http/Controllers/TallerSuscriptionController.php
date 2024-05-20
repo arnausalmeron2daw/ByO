@@ -22,7 +22,7 @@ class TallerSuscriptionController extends Controller
             $taller->update(['suscription' => true]);
 
             // Redirigir o realizar otras acciones después de la actualización
-            return redirect()->route('tallerMain.index')->with('success', 'Suscripción actualizada exitosamente.');
+            return redirect()->route('reserva.index')->with('success', 'Suscripción actualizada exitosamente.');
         }else{
             echo "Pago denegado";
         }

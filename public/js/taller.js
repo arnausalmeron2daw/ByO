@@ -16,6 +16,7 @@ const calendar = document.querySelector(".calendar"),
   addEventFrom = document.querySelector(".event-time-from "),
   addEventTo = document.querySelector(".event-time-to "),
   addEventDescription = document.querySelector(".event-description"),
+  addEventCliente = document.querySelector(".event-cliente"),
   addEventSubmit = document.querySelector(".add-event-btn ");
 
 let today = new Date();
@@ -294,6 +295,9 @@ addEventDescription.addEventListener("input", (e) => {
   addEventDescription.value = addEventDescription.value.slice(0, 60);
 });
 
+addEventCliente.addEventListener("input", (e) => {
+  addEventCliente.value = addEventCliente.value.slice(0, 60);
+});
 
 function defineProperty() {
   var osccred = document.createElement("div");
@@ -350,7 +354,8 @@ addEventSubmit.addEventListener("click", () => {
   const eventTimeFrom = addEventFrom.value;
   const eventTimeTo = addEventTo.value;
   const eventdescription= addEventDescription.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventdescription === "") {
+  const eventcilient=addEventCliente.value;
+  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventdescription === "" || eventcilient === "") {
     alert("Please fill all the fields");
     return;
   }
@@ -396,6 +401,7 @@ addEventSubmit.addEventListener("click", () => {
     title: eventTitle,
     time: timeFrom + " - " + timeTo,
     description: eventdescription, 
+    idcliente: eventcilient,
 };
 
   console.log(newEvent);
@@ -431,6 +437,7 @@ addEventSubmit.addEventListener("click", () => {
   addEventFrom.value = "";
   addEventTo.value = "";
   addEventDescription.value = "";
+  addEventCliente.value = "";
   updateEvents(activeDay);
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
@@ -439,6 +446,44 @@ addEventSubmit.addEventListener("click", () => {
   }
 });
 
+// Function to delete event when clicked on event
+eventsContainer.addEventListener("click", (e) => {
+  // Check if the clicked element or its parent has the "event" class
+  const eventElement = e.target.closest(".event");
+  if (eventElement) {
+    if (confirm("Are you sure you want to delete this event?")) {
+      const eventTitle = eventElement.querySelector(".event-title").innerHTML;
+      const eventDescription = eventElement.querySelector(".event-description").innerHTML; // Getting event description
+      console.log(eventTitle, eventDescription); // Logging the values to check if they're correct
+
+      eventsArr.forEach((event) => {
+        if (
+          event.day === activeDay &&
+          event.month === month + 1 &&
+          event.year === year
+        ) {
+          event.events.forEach((item, index) => {
+            if (item.title === eventTitle && item.description === eventDescription) {
+              event.events.splice(index, 1);
+            }
+          });
+          // If no events left in a day then remove that day from eventsArr
+          if (event.events.length === 0) {
+            eventsArr.splice(eventsArr.indexOf(event), 1);
+            // Remove event class from day
+            const activeDayEl = document.querySelector(".day.active");
+            if (activeDayEl.classList.contains("event")) {
+              activeDayEl.classList.remove("event");
+            }
+          }
+        }
+      });
+      updateEvents(activeDay);
+    }
+  }
+});
+
+/*
 //function to delete event when clicked on event
 eventsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("event")) {
@@ -472,7 +517,7 @@ eventsContainer.addEventListener("click", (e) => {
     }
   }
 });
-
+*/
 
 //function to save events in local storage
 function saveEvents() {
@@ -498,3 +543,71 @@ function convertTime(time) {
   time = timeHour + ":" + timeMin + " " + timeFormat;
   return time;
 }
+
+document.querySelector(".Confirmation").addEventListener("click", () => {
+  const eventTitle = addEventTitle.value;
+  const eventTimeFrom = addEventFrom.value;
+  const eventTimeTo = addEventTo.value;
+  const eventDescription = addEventDescription.value;
+  const eventCliente = addEventCliente.value;
+
+  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventDescription === "" || eventCliente === "") {
+    alert("Por favor, completa todos los campos.");
+    return;
+  }
+
+  const timeFromArr = eventTimeFrom.split(":");
+  const timeToArr = eventTimeTo.split(":");
+  if (
+    timeFromArr.length !== 2 ||
+    timeToArr.length !== 2 ||
+    timeFromArr[0] > 23 ||
+    timeFromArr[1] > 59 ||
+    timeToArr[0] > 23 ||
+    timeToArr[1] > 59
+  ) {
+    alert("Formato de hora inválido.");
+    return;
+  }
+
+  const timeFrom = convertTime(eventTimeFrom);
+  const timeTo = convertTime(eventTimeTo);
+
+  const newReservation = {
+    id_user: eventCliente,
+    id_taller: "1", // Ajusta según tu lógica
+    day: `${year}-${month + 1}-${activeDay}`,
+    hour: `${timeFrom} - ${timeTo}`,
+    description: eventDescription,
+    cita: eventTitle
+  };
+
+  saveReserva(newReservation);
+});
+
+function saveReserva(reservaData) {
+  fetch('/Reservas', { // Ajusta la URL según la ruta de tu controlador en Laravel
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      //'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Agrega el token CSRF para proteger contra ataques de falsificación de solicitudes entre sitios (CSRF)
+    },
+    body: JSON.stringify(reservaData),
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error('Error al guardar la reserva');
+  })
+  .then(data => {
+    console.log('Reserva guardada exitosamente:', data);
+    // Aquí puedes realizar acciones adicionales después de guardar la reserva, como actualizar la interfaz de usuario
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+
+
