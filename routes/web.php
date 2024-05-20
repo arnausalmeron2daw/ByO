@@ -49,7 +49,6 @@ Route::get('/tallerMain', [TallerMainController::class, 'index'])->name('tallerM
 Route::get('/tallerConfig', [TallerConfigController::class, 'index'])->name('tallerConfig.index');
 
 
-Route::get('/tallerEditConfig', [TallerEditConfigController::class, 'index'])->name('tallerEditConfig.index');
 Route::get('/dashboard', [LoginUserController::class, 'showTalleres'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/showTaller/{id}', [ShowTallerController::class, 'show'])->name('showTaller.show');
@@ -67,7 +66,8 @@ Route::post('/reservas', [ReservaController::class, 'store'])->name("reserva.sto
 Route::get('/reservas', [ReservaController::class, 'index'])->name("reserva.index");
 Route::delete('/reservas', [ReservaController::class, 'destroy'])->name("reserva.delete");
 
-
-
+Route::get('/tallerEditConfig/{id}/edit', [TallerEditConfigController::class, 'edit'])->name('tallerEditConfig.edit');
+Route::put('/tallerEditConfig/{id}', [TallerEditConfigController::class, 'update'])->name('tallerEditConfig.update');
+Route::put('/tallerEditConfig/{id}/password/edit', [TallerEditConfigController::class, 'updatePassword'])->name('tallerEditConfig.updatePassword');
 
 require __DIR__.'/auth.php';

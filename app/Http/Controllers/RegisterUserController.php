@@ -26,7 +26,7 @@ class RegisterUserController extends Controller
 
                 return redirect()->route('registerUser.index')->with('success', 'Usuario registrado exitosamente.');
             } else {
-                echo "Las contraseas no coinciden";
+                return back()->with('error', 'Las contraseñas no coinciden.');
             }
         } else {
             echo "Los datos no van";

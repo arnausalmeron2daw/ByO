@@ -165,10 +165,16 @@
                     </div>
                 </div>
                 <div class="flex justify-end mt-16">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Actualizar perfil
-                    </button>
+                    @if(isset(session('Taller')->id))
+                        <a href="{{ route('tallerEditConfig.edit', session('Taller')->id) }}"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Editar Información del Taller
+                        </a>
+                    @endif
                 </div>
+
+
+
 
             </div>
         </main>

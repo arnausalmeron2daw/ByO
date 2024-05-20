@@ -16,6 +16,11 @@
     <div class="min-h-screen flex justify-center items-center">
         <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-6">Registro de Usuario</h2>
+            @if (session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
             <form action="{{ route('registerUser.index') }}" method="POST">
                 @csrf
                 <div class="mb-4">

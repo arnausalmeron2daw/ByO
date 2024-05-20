@@ -47,11 +47,7 @@
                     </nav>
                 @endif
             </div>
-            <div class="relative flex justify-center flex-row items-center gap-2">
-                <img src="{{ asset('img/esp.jpg') }}" alt="esp">
-                <a href="#"><img src="{{ asset('img/arrow.png') }}" alt="arrow" class=" w-4 h-4"></a>
-                <p class="text-white">ES</p>
-            </div>
+            
             <div class="relative flex justify-center flex-row pr-10">
                 <a href="{{ route('tallerLogin.index') }}"
                     class="relative font-sans font-bold bg-gray-100 rounded border-black text-black text-xs p-4 pl-6 pr-6 leading-7">
