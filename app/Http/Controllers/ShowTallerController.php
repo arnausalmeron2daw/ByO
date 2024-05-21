@@ -1,6 +1,4 @@
 <?php
-
-
 namespace App\Http\Controllers;
 
 use App\Models\Taller;
@@ -13,7 +11,16 @@ class ShowTallerController extends Controller
 {
     public function show($id)
     {
+        $tallerId = Session::get('id');
+        
+        // Verificar si la sesión ha expirado
+        if (!$tallerId) {
+            // Redirigir a la página de inicio de sesión o a alguna otra página apropiada
+            return redirect()->route('login')->with('error', 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
+        }
+
         $taller = Taller::findOrFail($id);
+
         $reservas = Reserva::where('id_taller', $taller->id)->get();
         $citasNoDisponibles = [];
 
@@ -26,8 +33,8 @@ class ShowTallerController extends Controller
             ];
         }
 
-        $tallerId = Session::get('id');
         $horarioTaller = HorarioTaller::where('id_taller', $tallerId)->first();
+
         return view('showTaller', compact('taller', 'citasNoDisponibles', 'horarioTaller'));
     }
 
@@ -45,7 +52,7 @@ class ShowTallerController extends Controller
 
         $reserva = Reserva::create($validatedData);
 
-        Session::put('id_reserva',$reserva->id_taller);
+        Session::put('id_reserva', $reserva->id_taller);
 
         if ($reserva) {
             return redirect()->route('dashboard')->with('success', "Reserva creada exitosamente");

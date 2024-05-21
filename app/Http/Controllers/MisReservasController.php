@@ -11,7 +11,7 @@ class MisReservasController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::where('id_user', session('id_user'))->with('taller')->get();
+        $reservas = Reserva::where('id_user', session('id_user'))->with('Taller')->get();
         return view('misReservas', compact('reservas'));
     }
 

@@ -47,6 +47,8 @@ class TallerRegisterController extends Controller
                 Session::put('id', $id); 
                 Session::put('name', $name);
                 Session::put('Taller', $taller);
+                
+
                 return redirect()->route('tallerHorarios.index');
             } else {
                 return back()->withErrors(['repeatPassword' => 'Las contraseñas no coinciden']);

@@ -71,7 +71,7 @@
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                         <div class="grid grid-cols-3 gap-8">
                             <div class="mb-6">
-                                <img src="data:image/png;base64,{{ session('Taller')->logo }}" alt="Logo del Taller"
+                                <img src="data:image/png;base64,{{ $taller->logo }}" alt="Logo del Taller"
                                     class="w-full h-full object-contain">
                             </div>
                             <div class="mt-32 mb-8 text-lg">
