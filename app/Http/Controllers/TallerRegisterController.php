@@ -47,7 +47,7 @@ class TallerRegisterController extends Controller
                 Session::put('id', $id); 
                 Session::put('name', $name);
                 Session::put('Taller', $taller);
-                
+
 
                 return redirect()->route('tallerHorarios.index');
             } else {

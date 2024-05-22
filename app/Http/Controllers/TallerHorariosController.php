@@ -51,10 +51,10 @@ class TallerHorariosController extends Controller
         
         // Buscar el horario del taller en la base de datos después de guardar
         $horarioTaller = HorarioTaller::where('id_taller', $tallerId)->first();
-       
         // Verificar si se encontró el horario del taller
         if ($horarioTaller) {
             // Redireccionar o realizar alguna acción después de guardar los datos
+            session(['horarioTaller' => $horarioTaller]);
             return redirect()->route('tallerSuscription.index');
         } else {
             // Manejar el caso en el que no se encontró el horario del taller

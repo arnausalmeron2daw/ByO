@@ -11,16 +11,8 @@ class ShowTallerController extends Controller
 {
     public function show($id)
     {
-        $tallerId = Session::get('id');
-        
-        // Verificar si la sesión ha expirado
-        if (!$tallerId) {
-            // Redirigir a la página de inicio de sesión o a alguna otra página apropiada
-            return redirect()->route('login')->with('error', 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.');
-        }
 
         $taller = Taller::findOrFail($id);
-
         $reservas = Reserva::where('id_taller', $taller->id)->get();
         $citasNoDisponibles = [];
 
@@ -33,8 +25,7 @@ class ShowTallerController extends Controller
             ];
         }
 
-        $horarioTaller = HorarioTaller::where('id_taller', $tallerId)->first();
-
+        $horarioTaller = HorarioTaller::where('id_taller', $taller->id)->first();
         return view('showTaller', compact('taller', 'citasNoDisponibles', 'horarioTaller'));
     }
 

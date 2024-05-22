@@ -59,7 +59,7 @@
                     @foreach ($reservas as $reserva)
                         <div class="mb-8 p-4 bg-white rounded shadow-md">
                             <h2 class="text-xl font-semibold mb-4">Información de la reserva:</h2>
-                            <p><strong>Nombre del taller:</strong> {{ $reserva->taller->nombre }}</p>
+                            <p><strong>Nombre del taller:</strong> {{ $reserva->taller->name }}</p>
                             <p><strong>Teléfono:</strong> {{ $reserva->taller->telefono }}</p>
                             <p><strong>Email:</strong> {{ $reserva->taller->email }}</p>
                             <p><strong>Ubicación:</strong> <a href="{{ $reserva->taller->location }}"><u>Clica aqui!</u></a> </p>

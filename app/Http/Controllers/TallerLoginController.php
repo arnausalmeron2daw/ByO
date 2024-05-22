@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Taller; // Asegúrate de importar el modelo correcto
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Models\HorarioTaller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use App\Models\Taller; // Asegúrate de importar el modelo correcto
 
 class TallerLoginController extends Controller
 {
@@ -22,32 +23,47 @@ class TallerLoginController extends Controller
         if (Auth::guard('web')->attempt($credentials)) {
             // El usuario ha iniciado sesión correctamente, ahora obtenemos su información del taller
             $user = Auth::user();
-            session(['taller'=>['name' => $user->name,
-                'email' => $user->email,
-                'telefono'=>$user->telefono,
-                'location'=>$user->location,
-            ]]);
+            session([
+                'taller' => [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'telefono' => $user->telefono,
+                    'location' => $user->location,
+                ]
+            ]);
 
             // Pasar la información del taller a la vista
             return redirect()->route('tallerMain.index');
         } else {
             // Verificar el hash de la contraseña ingresada con el hash almacenado
             $user = Taller::where('email', $credentials['email'])->first();
-        
+
             if ($user && password_verify($credentials['password'], $user->password)) {
                 // Las contraseñas coinciden
                 Auth::guard('web')->login($user);
 
                 // El usuario ha iniciado sesión correctamente, ahora obtenemos su información del taller
-                
-                session(['taller'=>['name' => $user->name,
-                    'email' => $user->email,
-                    'telefono'=>$user->telefono,
-                    'location'=>$user->location,
-                ]]);
+
+                session([
+                    'taller' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'telefono' => $user->telefono,
+                        'location' => $user->location,
+                    ]
+                ]);
 
                 
+
+                $horarioTaller = HorarioTaller::where('id_taller', $user->id)->first();
+                if ($horarioTaller) {
+                    session(['horarioTaller' => $horarioTaller]);
+                }
+
                 Session::put('Taller', $user);
+
+                
                 // Pasar la información del taller a la vista
                 return redirect()->route('reserva.index');
             } else {
